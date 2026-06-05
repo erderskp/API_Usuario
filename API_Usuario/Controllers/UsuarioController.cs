@@ -1,10 +1,13 @@
 ﻿using API_Usuario.Data;
 using API_Usuario.Models;
+using API_Usuario.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API_Usuario.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsuarioController:ControllerBase
@@ -39,6 +42,7 @@ namespace API_Usuario.Controllers
 
         // POST: api/usuarios
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
         {
             // Validar correo duplicado
@@ -52,7 +56,9 @@ namespace API_Usuario.Controllers
                     mensaje = "El correo electrónico ya está en uso."
                 });
             }
-
+            
+            usuario.Contrasena = HashService.ComputeSha256(usuario.Contrasena);
+            
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
 
