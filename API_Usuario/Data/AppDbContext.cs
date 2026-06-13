@@ -12,6 +12,12 @@ namespace API_Usuario.Data
 
         public DbSet<Usuario> Usuarios { get; set; }
 
+        public DbSet<Producto> Productos { get; set; }
+
+        public DbSet<Proveedor> Proveedores { get; set; }
+
+        public DbSet<Categoria> Categorias { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuario>()
