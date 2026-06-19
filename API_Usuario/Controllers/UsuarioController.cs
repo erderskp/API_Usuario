@@ -13,10 +13,12 @@ namespace API_Usuario.Controllers
     public class UsuarioController:ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly LogService _logService;
 
-        public UsuarioController(AppDbContext context)
+        public UsuarioController(AppDbContext context, LogService logService)
         {
             _context = context;
+            _logService = logService;
         }
 
         // GET: api/usuarios
@@ -61,6 +63,7 @@ namespace API_Usuario.Controllers
             
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
+            await _logService.RegistrarUsuarioAsync(usuario);
 
             return CreatedAtAction(
                 nameof(GetUsuario),
@@ -124,6 +127,19 @@ namespace API_Usuario.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpGet("historial")]
+        public async Task<IActionResult> GetHistorial()
+        {
+            var historial = await _logService.ObtenerHistorialAsync();
+
+            if (!historial.Any())
+            {
+                return NotFound("No existen registros en el archivo.");
+            }
+
+            return Ok(historial.Select(u => new {u.Id,u.Nombre, u.Correo, u.FechaDeNacimiento}));
         }
     }
 }

@@ -58,6 +58,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddScoped<JWTService>();
+builder.Services.AddScoped<LogService>();
 
 builder.Services.AddAuthentication(
     JwtBearerDefaults.AuthenticationScheme)
