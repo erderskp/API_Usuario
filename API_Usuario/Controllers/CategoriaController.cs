@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API_Usuario.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriaController:ControllerBase
