@@ -7,19 +7,16 @@ namespace API_Usuario.Services
     {
         private readonly string _rutaArchivo;
 
-        public LogService()
+        public LogService(IWebHostEnvironment env)
         {
             _rutaArchivo = Path.Combine(
-                Directory.GetCurrentDirectory(),
+                env.ContentRootPath,
                 "Logs",
                 "usuarios.txt");
 
-            var directorio =
-                Path.GetDirectoryName(_rutaArchivo);
-
-            if (!Directory.Exists(directorio))
+            if (!Directory.Exists(Path.GetDirectoryName(_rutaArchivo)!))
             {
-                Directory.CreateDirectory(directorio!);
+                Directory.CreateDirectory(Path.GetDirectoryName(_rutaArchivo)!);
             }
         }
 
