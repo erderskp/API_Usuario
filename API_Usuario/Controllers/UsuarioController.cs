@@ -44,7 +44,6 @@ namespace API_Usuario.Controllers
 
         // POST: api/usuarios
         [HttpPost]
-        [AllowAnonymous]
         public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
         {
             // Validar correo duplicado
